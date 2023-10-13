@@ -10,7 +10,8 @@ const Input = ({
   return (
     <>
       <div>
-        {lable && <label htmlFor={id}>{lable}: </label>}
+        {lable && <label htmlFor={id}>{lable} </label>}
+        <br />
         <input
           ref={ref}
           {...props}

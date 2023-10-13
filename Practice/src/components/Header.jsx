@@ -17,8 +17,8 @@ const Header = () => {
             name: 'About',
         },
         {
-            slug: '/null',
-            name: 'Edit',
+            slug: '/add-post',
+            name: 'Add',
         },
         {
             slug: '/null',
