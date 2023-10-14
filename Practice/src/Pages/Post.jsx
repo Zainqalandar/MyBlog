@@ -26,24 +26,24 @@ const Post = () => {
 
   }, [slug, navigate])
 
-  const handleDelete=()=>{
-    services.deletePost(Post.$id).then((status)=>{
+  const handleDelete = () => {
+    services.deletePost(Post.$id).then((status) => {
       if (status) {
         services.deleteFile(Post.featureImage);
         navigate('/')
-        
+
       }
     })
   }
 
   return Post ? (
-    <div className="py-8">
+    <div className="py-8 bg-white dark:bg-gray-900 ">
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img
             src={services.getFilePreview(Post.featureImage)}
             alt="kjjnk"
-            className="rounded-xl w-[70%] h-96"
+            className="rounded-xl w-full h-[500px]"
           />
 
           {isAuther && (
@@ -59,15 +59,27 @@ const Post = () => {
             </div>
           )}
         </div>
-        <div className="w-full mb-6">
-          <h1 className="text-2xl font-bold">{Post.title}</h1>
-        </div>
-        <div className="browser-css">
-          {parse(Post.content)}
+        <div className='  dark:bg-gray-600 rounded-lg p-2'>
+          <div className="w-full mb-6">
+            <h1 className="text-2xl font-bold">{Post.title}</h1>
+          </div>
+          <div className="browser-css">
+            {parse(Post.content)}
+          </div>
         </div>
       </Container>
     </div>
-  ) : null
+  ) : (
+    <div className="min-h-[15rem] flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+      <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+        <div className="flex justify-center">
+          <div className="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Post

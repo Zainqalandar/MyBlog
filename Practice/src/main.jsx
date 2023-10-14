@@ -5,9 +5,10 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './Store/Store.js'
-import {CreateAccount, EditPost, Post, SignInSide} from './components'
+import {CreateAccount, Post, SignInSide, UpdatePost} from './components'
 import AddPost from './Pages/AddPost.jsx'
 import Home from './Pages/Home.jsx'
+import Settings from './Pages/Settings.jsx'
 
 const router = createBrowserRouter([{
   path: '/',
@@ -33,6 +34,14 @@ const router = createBrowserRouter([{
     {
       path: '/post/:slug',
       element: <Post />
+    },
+    {
+      path: '/profile',
+      element: <Settings />
+    },
+    {
+      path: '/update/:slug',
+      element: <UpdatePost />
     }
   ]
 }])

@@ -13,7 +13,7 @@ export class Services {
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client)
     }
-    async createPost({ title, slug, content, featureImage, userId, status="active"}) {
+    async createPost({ title, slug, content, featureImage, userId, status = "active", name }) {
         try {
             return await this.databases.createDocument(
                 confi.appwritedatabaseId,
@@ -24,7 +24,8 @@ export class Services {
                     content,
                     featureImage,
                     userId,
-                    status
+                    status,
+                    name
                 }
             )
         } catch (error) {
@@ -56,6 +57,24 @@ export class Services {
         } catch (error) {
             console.log("Appwrite serive :: deletePost :: error", error);
             return false
+        }
+    }
+    async updatePost(slug, { title, content, featuredImage, status }) {
+        try {
+            return await this.databases.updateDocument(
+                confi.appwritedatabaseId,
+                confi.appwritecollectionId,
+                slug,
+                {
+                    title,
+                    content,
+                    featuredImage,
+                    status,
+
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: updatePost :: error", error);
         }
     }
 

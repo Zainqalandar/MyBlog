@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SignIn } from '../Store/UserSlice';
 import { Link as Links } from 'react-router-dom';
+import services from '../Appwrite/Database';
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -47,12 +48,15 @@ export default function SignInSide() {
         const sesstion = await authservice.Login({
             email: data.get('email'),
             password: data.get('password'),
-        }).then((userData)=>{
-            if (userData) {
-                dispatch(SignIn({userData}))
-                navigate('/')
-            }
         })
+        if(sesstion){
+            console.log('hlo me')
+          await authservice.getCurrentAccount().then((userData)=>{
+                if(userData) dispatch(SignIn({userData}))
+                navigate('/')
+
+            })
+        }
     };
 
     return (

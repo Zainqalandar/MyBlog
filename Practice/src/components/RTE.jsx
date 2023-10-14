@@ -10,6 +10,7 @@ const RTE = ({defaultValue, control}) => {
                 control={control}
                 render={({ field: { onChange } }) => (
                     <Editor
+                    initialValue={defaultValue}
                         init={{
                             initialValue: defaultValue,
                             height: 500,

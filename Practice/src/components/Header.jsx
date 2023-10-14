@@ -21,8 +21,8 @@ const Header = () => {
             name: 'Add',
         },
         {
-            slug: '/null',
-            name: 'Contact',
+            slug: '/profile',
+            name: 'Profile',
         },
     ];
 
@@ -30,8 +30,8 @@ const Header = () => {
         const check = document.getElementsByTagName('html')[0];
         check.classList.toggle('light');
         check.classList.toggle('dark');
-      };
-      
+    };
+
 
     return (
         <>
@@ -59,7 +59,15 @@ const Header = () => {
                                 Create Account
                             </Link>
                         )}
-                        <h1 onClick={()=>HandleDark()} className=' cursor-pointer'>(*)</h1>
+                        <h1 onClick={() => HandleDark()} className=' cursor-pointer mx-2'>
+                            <button
+                                title="Toggle Theme"
+                                class="w-12 h-6 rounded-full p-1 bg-gray-400 dark:bg-gray-600 relative transition-colors duration-500 ease-infocus:outline-none focus:ring-2 focus:ring-blue-700 dark:focus:ring-blue-600 focus:border-transparent">
+                                <div id="toggle"
+                                    class="rounded-full w-4 h-4 bg-blue-600 dark:bg-blue-500 relative ml-0 dark:ml-6 pointer-events-none transition-all duration-300 ease-out">
+                                </div>
+                            </button>
+                        </h1>
                         <button
                             data-collapse-toggle="navbar-sticky"
                             type="button"
