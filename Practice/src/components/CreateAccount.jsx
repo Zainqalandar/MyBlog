@@ -17,6 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link as Links } from 'react-router-dom';
 import { SignIn } from '../Store/UserSlice';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import services from '../Appwrite/Database';
 
 function Copyright(props) {
     return (
@@ -36,8 +38,9 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function CreateAccount() {
+    const [error, setError] = useState('')
     const navigate = useNavigate()
-   const dispatch =useDispatch()
+    const dispatch = useDispatch()
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -46,16 +49,24 @@ export default function CreateAccount() {
             email: data.get('email'),
             password: data.get('password'),
         });
-        const sesstion = await authservice.CreateAccount({
-            name: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('password'),
-        }).then((userData)=>{
-            if (userData) {
-                dispatch(SignIn({userData}))
-                navigate('/')
+        try {
+            const sesstion = await authservice.CreateAccount({
+                name: data.get('lastName'),
+                email: data.get('email'),
+                password: data.get('password'),
+            })
+            if (sesstion) {
+                await authservice.getCurrentAccount().then((userData) => {
+                    if (userData) {
+                        dispatch(SignIn({ userData }))
+                        navigate('/')
+                    }
+                })
+
             }
-        })
+        } catch (error) {
+            setError(error.message)
+        }
 
     };
 
@@ -110,6 +121,7 @@ export default function CreateAccount() {
                                     autoComplete="new-password"
                                 />
                             </Grid>
+                            <p className=' text-red-700'>{error}</p>
                             <Grid item xs={12}>
                                 <FormControlLabel
                                     control={<Checkbox value="allowExtraEmails" color="primary" />}

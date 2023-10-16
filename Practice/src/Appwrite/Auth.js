@@ -18,7 +18,7 @@ export class AuthService {
         }
     }
     async CreateAccount({ email, password, name }) {
-        try {
+        // try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 return this.Login({ email, password })
@@ -28,19 +28,19 @@ export class AuthService {
                 return userAccount
             }
 
-        } catch (error) {
-            console.log("This is error about :: CreateAccount", error);
+        // } catch (error) {
+        //     console.log("This is error about :: CreateAccount", error);
 
-        }
+        // }
     }
     async Login({ email, password }) {
-        try {
+        // try {
             return await this.account.createEmailSession(email, password)
 
-        } catch (error) {
-            console.log("This is error about :: Login", error);
+        // } catch (error) {
+        //     console.log("This is error about :: Login", error);
 
-        }
+        // }
     }
     async Logout() {
         try {

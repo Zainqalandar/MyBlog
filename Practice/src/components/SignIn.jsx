@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SignIn } from '../Store/UserSlice';
 import { Link as Links } from 'react-router-dom';
 import services from '../Appwrite/Database';
+import { useState } from 'react';
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -36,6 +37,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+    const [error, setError] = useState('')
     const dispatch = useDispatch()
     const navigate =useNavigate()
     const handleSubmit =async(event) => {
@@ -45,19 +47,23 @@ export default function SignInSide() {
             email: data.get('email'),
             password: data.get('password'),
         });
-        const sesstion = await authservice.Login({
-            email: data.get('email'),
-            password: data.get('password'),
-        })
-        if(sesstion){
-            console.log('hlo me')
-          await authservice.getCurrentAccount().then((userData)=>{
-                if(userData) dispatch(SignIn({userData}))
-                navigate('/')
-
+        try {
+            
+            const sesstion = await authservice.Login({
+                email: data.get('email'),
+                password: data.get('password'),
             })
+            if(sesstion){
+              await authservice.getCurrentAccount().then((userData)=>{
+                    if(userData) dispatch(SignIn({userData}))
+                    navigate('/')
+                })
+            }
+        } catch (error) {
+            setError(error.message)
         }
     };
+    console.log(error)
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -114,6 +120,8 @@ export default function SignInSide() {
                                 id="password"
                                 autoComplete="current-password"
                             />
+                            <p className=' text-red-700'>{error}</p>
+                            
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
